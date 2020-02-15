@@ -82,12 +82,12 @@ var _ = ginkgo.BeforeSuite(func() {
 		gomega.Expect(err).NotTo(gomega.HaveOccurred())
 		log.Println("docker login is successful")
 
-		// Install Blobfuse CSI Driver on cluster from project root
+		// Install goofys CSI Driver on cluster from project root
 		e2eBootstrap := testCmd{
 			command:  "make",
 			args:     []string{"e2e-bootstrap"},
-			startLog: "Installing Blobfuse CSI Driver...",
-			endLog:   "Blobfuse CSI Driver installed",
+			startLog: "Installing goofys CSI Driver...",
+			endLog:   "goofys CSI Driver installed",
 		}
 		execTestCmd([]testCmd{e2eBootstrap})
 
@@ -111,8 +111,8 @@ var _ = ginkgo.AfterSuite(func() {
 		e2eTeardown := testCmd{
 			command:  "make",
 			args:     []string{"e2e-teardown"},
-			startLog: "Uninstalling Blobfuse CSI Driver...",
-			endLog:   "Blobfuse CSI Driver uninstalled",
+			startLog: "Uninstalling goofys CSI Driver...",
+			endLog:   "goofys CSI Driver uninstalled",
 		}
 		execTestCmd([]testCmd{blobfuseLog, e2eTeardown})
 
@@ -128,7 +128,7 @@ func TestE2E(t *testing.T) {
 		reportDir = defaultReportDir
 	}
 	r := []ginkgo.Reporter{reporters.NewJUnitReporter(path.Join(reportDir, "junit_01.xml"))}
-	ginkgo.RunSpecsWithDefaultAndCustomReporters(t, "Blobfuse CSI Driver End-to-End Tests", r)
+	ginkgo.RunSpecsWithDefaultAndCustomReporters(t, "goofys CSI Driver End-to-End Tests", r)
 }
 
 func execTestCmd(cmds []testCmd) {

@@ -29,7 +29,7 @@ import (
 type DynamicallyProvisionedReclaimPolicyTest struct {
 	CSIDriver driver.DynamicPVTestDriver
 	Volumes   []VolumeDetails
-	Blobfuse  *blobfuse.Driver
+	goofys  *blobfuse.Driver
 }
 
 func (t *DynamicallyProvisionedReclaimPolicyTest) Run(client clientset.Interface, namespace *v1.Namespace) {
@@ -43,7 +43,7 @@ func (t *DynamicallyProvisionedReclaimPolicyTest) Run(client clientset.Interface
 		if tpvc.ReclaimPolicy() == v1.PersistentVolumeReclaimRetain {
 			tpvc.WaitForPersistentVolumePhase(v1.VolumeReleased)
 			tpvc.DeleteBoundPersistentVolume()
-			tpvc.DeleteBackingVolume(t.Blobfuse)
+			tpvc.DeleteBackingVolume(t.goofys)
 		}
 	}
 }

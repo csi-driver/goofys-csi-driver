@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Copyright 2019 The Kubernetes Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -uo pipefail
+FROM mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.5
+RUN wget -O /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+RUN dpkg -i /tmp/packages-microsoft-prod.deb && apt-get update && apt-get install -y ca-certificates pkg-config libfuse-dev cmake libcurl4-gnutls-dev libgnutls28-dev uuid-dev libgcrypt20-dev goofys
+LABEL maintainers="andyzhangx"
+LABEL description="goofys CSI Driver"
 
-echo 'Uninstalling goofys CSI driver...'
-kubectl delete -f deploy/csi-blobfuse-controller.yaml
-kubectl delete -f deploy/csi-blobfuse-node.yaml
-kubectl delete -f deploy/crd-csi-driver-registry.yaml
-kubectl delete -f deploy/crd-csi-node-info.yaml
-kubectl delete -f deploy/rbac-csi-blobfuse-controller.yaml
-echo 'goofys CSI driver uninstalled'
+COPY ./_output/goofysplugin /goofysplugin
+ENTRYPOINT ["/goofysplugin"]

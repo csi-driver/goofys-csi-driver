@@ -1,6 +1,6 @@
 # Installation with Helm
 
-Quick start instructions for the setup and configuration of blobfuse CSI driver using Helm.
+Quick start instructions for the setup and configuration of goofys CSI driver using Helm.
 
 ## Prerequisites
 
@@ -11,13 +11,13 @@ Quick start instructions for the setup and configuration of blobfuse CSI driver 
 ## Install BlobFuse via `helm install`
 
 ```console
-$ cd $GOPATH/src/sigs.k8s.io/blobfuse-csi-driver/charts/latest
-$ helm package blobfuse-csi-driver
-$ helm install blobfuse-csi-driver blobfuse-csi-driver-latest.tgz --namespace kube-system
+$ cd $GOPATH/src/sigs.k8s.io/goofys-csi-driver/charts/latest
+$ helm package goofys-csi-driver
+$ helm install goofys-csi-driver goofys-csi-driver-latest.tgz --namespace kube-system
 ```
 
 ## Uninstall
 
 ```console
-$ helm delete --purge blobfuse-csi-driver
+$ helm delete --purge goofys-csi-driver
 ```

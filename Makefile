@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PKG = sigs.k8s.io/blobfuse-csi-driver
+PKG = github.com/csi-driver/goofys-csi-driver
 GIT_COMMIT ?= $(shell git rev-parse HEAD)
 REGISTRY ?= andyzhangx
-IMAGE_NAME = blobfuse-csi
-IMAGE_VERSION ?= v0.5.0
+IMAGE_NAME = goofys-csi
+IMAGE_VERSION ?= v0.1.0
 # Use a custom version for E2E tests if we are in Prow
 ifdef AZURE_CREDENTIALS
 override IMAGE_VERSION := e2e-$(GIT_COMMIT)
@@ -24,12 +24,12 @@ endif
 IMAGE_TAG = $(REGISTRY)/$(IMAGE_NAME):$(IMAGE_VERSION)
 IMAGE_TAG_LATEST = $(REGISTRY_NAME)/$(IMAGE_NAME):latest
 BUILD_DATE ?= $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
-LDFLAGS ?= "-X ${PKG}/pkg/blobfuse.driverVersion=${IMAGE_VERSION} -X ${PKG}/pkg/blobfuse.gitCommit=${GIT_COMMIT} -X ${PKG}/pkg/blobfuse.buildDate=${BUILD_DATE} -s -w -extldflags '-static'"
+LDFLAGS ?= "-X ${PKG}/pkg/goofys.driverVersion=${IMAGE_VERSION} -X ${PKG}/pkg/goofys.gitCommit=${GIT_COMMIT} -X ${PKG}/pkg/goofys.buildDate=${BUILD_DATE} -s -w -extldflags '-static'"
 GINKGO_FLAGS = -ginkgo.noColor -ginkgo.v
 GO111MODULE = off
 export GO111MODULE
 
-all: blobfuse
+all: goofys
 
 .PHONY: verify
 verify:
@@ -40,11 +40,11 @@ unit-test:
 	go test -covermode=count -coverprofile=profile.cov ./pkg/... ./test/utils/credentials
 
 .PHONY: sanity-test
-sanity-test: blobfuse
+sanity-test: goofys
 	go test -v -timeout=30m ./test/sanity
 
 .PHONY: integration-test
-integration-test: blobfuse
+integration-test: goofys
 	go test -v -timeout=30m ./test/integration
 
 .PHONY: e2e-test
@@ -54,11 +54,11 @@ e2e-test:
 .PHONY: e2e-bootstrap
 e2e-bootstrap: install-helm
 	# Only build and push the image if it does not exist in the registry
-	docker pull $(IMAGE_TAG) || make blobfuse-container push
-	helm install charts/latest/blobfuse-csi-driver -n blobfuse-csi-driver --namespace kube-system --wait \
-		--set image.blobfuse.pullPolicy=IfNotPresent \
-		--set image.blobfuse.repository=$(REGISTRY)/$(IMAGE_NAME) \
-		--set image.blobfuse.tag=$(IMAGE_VERSION)
+	docker pull $(IMAGE_TAG) || make goofys-container push
+	helm install charts/latest/goofys-csi-driver -n goofys-csi-driver --namespace kube-system --wait \
+		--set image.goofys.pullPolicy=IfNotPresent \
+		--set image.goofys.repository=$(REGISTRY)/$(IMAGE_NAME) \
+		--set image.goofys.tag=$(IMAGE_VERSION)
 
 .PHONY: install-helm
 install-helm:
@@ -70,28 +70,28 @@ install-helm:
 
 .PHONY: e2e-teardown
 e2e-teardown:
-	helm delete --purge blobfuse-csi-driver
+	helm delete --purge goofys-csi-driver
 
-.PHONY: blobfuse
-blobfuse:
+.PHONY: goofys
+goofys:
 	if [ ! -d ./vendor ]; then dep ensure -vendor-only; fi
-	CGO_ENABLED=0 GOOS=linux go build -a -ldflags ${LDFLAGS} -o _output/blobfuseplugin ./pkg/blobfuseplugin
+	CGO_ENABLED=0 GOOS=linux go build -a -ldflags ${LDFLAGS} -o _output/goofysplugin ./pkg/goofysplugin
 
-.PHONY: blobfuse-windows
-blobfuse-windows:
+.PHONY: goofys-windows
+goofys-windows:
 	if [ ! -d ./vendor ]; then dep ensure -vendor-only; fi
-	CGO_ENABLED=0 GOOS=windows go build -a -ldflags ${LDFLAGS} -o _output/blobfuseplugin.exe ./pkg/blobfuseplugin
+	CGO_ENABLED=0 GOOS=windows go build -a -ldflags ${LDFLAGS} -o _output/goofysplugin.exe ./pkg/goofysplugin
 
-.PHONY: blobfuse-container
-blobfuse-container: blobfuse
-	docker build --no-cache -t $(IMAGE_TAG) -f ./pkg/blobfuseplugin/Dockerfile .
+.PHONY: goofys-container
+goofys-container: goofys
+	docker build --no-cache -t $(IMAGE_TAG) -f ./pkg/goofysplugin/Dockerfile .
 
 .PHONY: push
-push: blobfuse-container
+push: goofys-container
 	docker push $(IMAGE_TAG)
 
 .PHONY: push-latest
-push-latest: blobfuse-container
+push-latest: goofys-container
 	docker push $(IMAGE_TAG)
 	docker tag $(IMAGE_TAG) $(IMAGE_TAG_LATEST)
 	docker push $(IMAGE_TAG_LATEST)

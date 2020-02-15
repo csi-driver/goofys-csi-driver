@@ -1,15 +1,15 @@
-# Blobfuse CSI driver development guide
+# goofys CSI driver development guide
 
  - Clone repo
 ```console
 $ mkdir -p $GOPATH/src/sigs.k8s.io
-$ git clone https://github.com/kubernetes-sigs/blobfuse-csi-driver $GOPATH/src/sigs.k8s.io
+$ git clone https://github.com/kubernetes-sigs/goofys-csi-driver $GOPATH/src/sigs.k8s.io
 ```
 
- - Build blobfuse driver
+ - Build goofys driver
 ```console
-$ cd $GOPATH/src/sigs.k8s.io/blobfuse-csi-driver
-$ make blobfuse
+$ cd $GOPATH/src/sigs.k8s.io/goofys-csi-driver
+$ make goofys
 ```
 
  - Run verification before sending PR
@@ -35,8 +35,8 @@ $ make build
 
 #### Start CSI driver locally
 ```console
-$ cd $GOPATH/src/sigs.k8s.io/blobfuse-csi-driver
-$ ./_output/blobfuseplugin --endpoint tcp://127.0.0.1:10000 --nodeid CSINode -v=5 &
+$ cd $GOPATH/src/sigs.k8s.io/goofys-csi-driver
+$ ./_output/goofysplugin --endpoint tcp://127.0.0.1:10000 --nodeid CSINode -v=5 &
 ```
 > Before running CSI driver, create "/etc/kubernetes/azure.json" file under testing server(it's better copy `azure.json` file from a k8s cluster with service principle configured correctly) and set `AZURE_CREDENTIAL_FILE` as following:
 ```
@@ -46,10 +46,10 @@ export set AZURE_CREDENTIAL_FILE=/etc/kubernetes/azure.json
 #### 1. Get plugin info
 ```console
 $ csc identity plugin-info --endpoint tcp://127.0.0.1:10000
-"blobfuse.csi.azure.com"        "v0.4.0"
+"goofys.csi.azure.com"        "v0.4.0"
 ```
 
-#### 2. Create an blobfuse volume
+#### 2. Create an goofys volume
 ```console
 $ csc controller new --endpoint tcp://127.0.0.1:10000 --cap 1,block CSIVolumeName  --req-bytes 2147483648 --params skuname=Standard_LRS
 "andy-mg1160alpha3#fuse4ef4b1d0c53d41bc88f#csivolumename"       2147483648      "skuname"="Standard_LRS"
@@ -77,7 +77,7 @@ csc node unpublish --endpoint tcp://127.0.0.1:10000 --target-path /tmp/target-pa
 csc node unstage --endpoint tcp://127.0.0.1:10000 --staging-target-path /tmp/staging-target-path "andy-mg1160alpha3#fuse4ef4b1d0c53d41bc88f#csivolumename"
 ```
 
-#### 7. Delete blobfuse volume
+#### 7. Delete goofys volume
 ```console
 $ csc controller del --endpoint tcp://127.0.0.1:10000 CSIVolumeID
 CSIVolumeID

@@ -20,20 +20,20 @@
    az keyvault set-policy -n $keyvaultname --certificate-permissions get --spn $aadclientid
    ```
 
-## Install blobfuse CSI driver on a kubernetes cluster
-Please refer to [install blobfuse csi driver](https://github.com/kubernetes-sigs/blobfuse-csi-driver/blob/master/docs/install-blobfuse-csi-driver.md)
+## Install goofys CSI driver on a kubernetes cluster
+Please refer to [install goofys csi driver](https://github.com/kubernetes-sigs/goofys-csi-driver/blob/master/docs/install-goofys-csi-driver.md)
 
 ## Create PV
-1.  Download a `pv-blobfuse-csi-keyvault.yaml`, edit `keyVaultURL`, `keyVaultSecretName`, `containerName` in PV
+1.  Download a `pv-goofys-csi-keyvault.yaml`, edit `keyVaultURL`, `keyVaultSecretName`, `containerName` in PV
 > `keyVaultSecretVersion` is the optional parameter. If not specified, it will be *current version*.
 ```console
-wget https://raw.githubusercontent.com/csi-driver/blobfuse-csi-driver/master/deploy/example/pv-blobfuse-csi-keyvault.yaml
-vi pv-blobfuse-csi-keyvault.yaml
-kubectl apply -f pv-blobfuse-csi-keyvault.yaml
+wget https://raw.githubusercontent.com/csi-driver/goofys-csi-driver/master/deploy/example/pv-goofys-csi-keyvault.yaml
+vi pv-goofys-csi-keyvault.yaml
+kubectl apply -f pv-goofys-csi-keyvault.yaml
 ```
 
 ## Create PVC 
 
 ```console
-kubectl apply -f https://raw.githubusercontent.com/csi-driver/blobfuse-csi-driver/master/deploy/example/pvc-blobfuse-csi-static.yaml
+kubectl apply -f https://raw.githubusercontent.com/csi-driver/goofys-csi-driver/master/deploy/example/pvc-goofys-csi-static.yaml
 ```
