@@ -46,7 +46,7 @@ export set AZURE_CREDENTIAL_FILE=/etc/kubernetes/azure.json
 #### 1. Get plugin info
 ```console
 $ csc identity plugin-info --endpoint tcp://127.0.0.1:10000
-"goofys.csi.azure.com"        "v0.4.0"
+"goofys.csi.azure.com"        "v0.1.0"
 ```
 
 #### 2. Create an goofys volume

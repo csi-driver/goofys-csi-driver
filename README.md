@@ -9,15 +9,11 @@ This driver allows Kubernetes to use [azure-storage-fuse](https://github.com/Azu
 |goofys CSI Driver Version    | Image                                              | v1.0.0 |
 |-------------------------------|----------------------------------------------------|--------|
 |master branch                  |mcr.microsoft.com/k8s/csi/goofys-csi:latest       | yes    |
-|v0.4.0                         |mcr.microsoft.com/k8s/csi/goofys-csi:v0.4.0       | yes    |
-|v0.3.0                         |mcr.microsoft.com/k8s/csi/goofys-csi:v0.3.0       | yes    |
 
 ### Kubernetes Compatibility
 | goofys CSI Driver\Kubernetes Version   | 1.14+ |
 |------------------------------------------|-------|
 | master branch                            | yes   |
-| v0.4.0                                   | yes   |
-| v0.3.0                                   | yes   |
 
 ### Driver parameters
 Please refer to `goofys.csi.azure.com` [driver parameters](./docs/driver-parameters.md)

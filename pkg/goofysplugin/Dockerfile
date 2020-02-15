@@ -1,4 +1,4 @@
-# Copyright 2019 The Kubernetes Authors.
+# Copyright 2020 The Kubernetes Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
 # limitations under the License.
 
 FROM mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.5
-RUN wget -O /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
-RUN dpkg -i /tmp/packages-microsoft-prod.deb && apt-get update && apt-get install -y ca-certificates pkg-config libfuse-dev cmake libcurl4-gnutls-dev libgnutls28-dev uuid-dev libgcrypt20-dev goofys
+RUN apt-get update && apt-get install -y ca-certificates pkg-config libfuse-dev cmake libcurl4-gnutls-dev libgnutls28-dev uuid-dev libgcrypt20-dev
+RUN wget -O /usr/local/bin/goofys https://github.com/kahing/goofys/releases/download/v0.23.1/goofys
+RUN chmod a+x /usr/local/bin/goofys
 LABEL maintainers="andyzhangx"
 LABEL description="goofys CSI Driver"
 
