@@ -20,8 +20,8 @@ readonly PKG_ROOT="$(git rev-parse --show-toplevel)"
 
 function get_image_from_helm_chart() {
   local -r image_name="${1}"
-  image_repository="$(cat ${PKG_ROOT}/charts/latest/blobfuse-csi-driver/values.yaml | yq -r .image.${image_name}.repository)"
-  image_tag="$(cat ${PKG_ROOT}/charts/latest/blobfuse-csi-driver/values.yaml | yq -r .image.${image_name}.tag)"
+  image_repository="$(cat ${PKG_ROOT}/charts/latest/goofys-csi-driver/values.yaml | yq -r .image.${image_name}.repository)"
+  image_tag="$(cat ${PKG_ROOT}/charts/latest/goofys-csi-driver/values.yaml | yq -r .image.${image_name}.tag)"
   echo "${image_repository}:${image_tag}"
 }
 
@@ -40,12 +40,12 @@ echo "Comparing image version between helm chart and manifests in deploy folder"
 # jq-equivalent for yaml
 pip install yq
 
-# Extract images from csi-blobfuse-controller.yaml
-expected_csi_provisioner_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-controller.yaml | yq -r .spec.template.spec.containers[0].image | head -n 1)"
-expected_csi_attacher_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-controller.yaml | yq -r .spec.template.spec.containers[1].image | head -n 1)"
-expected_cluster_driver_registrar_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-controller.yaml | yq -r .spec.template.spec.containers[2].image | head -n 1)"
-expected_liveness_probe_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-controller.yaml | yq -r .spec.template.spec.containers[3].image | head -n 1)"
-expected_blobfuse_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-controller.yaml | yq -r .spec.template.spec.containers[4].image | head -n 1)"
+# Extract images from csi-goofys-controller.yaml
+expected_csi_provisioner_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-controller.yaml | yq -r .spec.template.spec.containers[0].image | head -n 1)"
+expected_csi_attacher_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-controller.yaml | yq -r .spec.template.spec.containers[1].image | head -n 1)"
+expected_cluster_driver_registrar_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-controller.yaml | yq -r .spec.template.spec.containers[2].image | head -n 1)"
+expected_liveness_probe_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-controller.yaml | yq -r .spec.template.spec.containers[3].image | head -n 1)"
+expected_goofys_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-controller.yaml | yq -r .spec.template.spec.containers[4].image | head -n 1)"
 
 csi_provisioner_image="$(get_image_from_helm_chart "csiProvisioner")"
 validate_image "${expected_csi_provisioner_image}" "${csi_provisioner_image}"
@@ -59,19 +59,19 @@ validate_image "${expected_cluster_driver_registrar_image}" "${cluster_driver_re
 liveness_probe_image="$(get_image_from_helm_chart "livenessProbe")"
 validate_image "${expected_liveness_probe_image}" "${liveness_probe_image}"
 
-blobfuse_image="$(get_image_from_helm_chart "blobfuse")"
-validate_image "${expected_blobfuse_image}" "${blobfuse_image}"
+goofys_image="$(get_image_from_helm_chart "goofys")"
+validate_image "${expected_goofys_image}" "${goofys_image}"
 
-# Extract images from csi-blobfuse-node.yaml
-expected_liveness_probe_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-node.yaml | yq -r .spec.template.spec.containers[0].image | head -n 1)"
-expected_node_driver_registrar="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-node.yaml | yq -r .spec.template.spec.containers[1].image | head -n 1)"
-expected_blobfuse_image="$(cat ${PKG_ROOT}/deploy/csi-blobfuse-node.yaml | yq -r .spec.template.spec.containers[2].image | head -n 1)"
+# Extract images from csi-goofys-node.yaml
+expected_liveness_probe_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-node.yaml | yq -r .spec.template.spec.containers[0].image | head -n 1)"
+expected_node_driver_registrar="$(cat ${PKG_ROOT}/deploy/csi-goofys-node.yaml | yq -r .spec.template.spec.containers[1].image | head -n 1)"
+expected_goofys_image="$(cat ${PKG_ROOT}/deploy/csi-goofys-node.yaml | yq -r .spec.template.spec.containers[2].image | head -n 1)"
 
 validate_image "${expected_liveness_probe_image}" "${liveness_probe_image}"
 
 node_driver_registrar="$(get_image_from_helm_chart "nodeDriverRegistrar")"
 validate_image "${expected_node_driver_registrar}" "${node_driver_registrar}"
 
-validate_image "${expected_blobfuse_image}" "${blobfuse_image}"
+validate_image "${expected_goofys_image}" "${goofys_image}"
 
 echo "Images in deploy/ matches those in the latest helm chart."

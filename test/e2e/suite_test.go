@@ -27,15 +27,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/csi-driver/goofys-csi-driver/pkg/goofys"
+	"github.com/csi-driver/goofys-csi-driver/test/utils/azure"
+	"github.com/csi-driver/goofys-csi-driver/test/utils/credentials"
+	"github.com/csi-driver/goofys-csi-driver/test/utils/testutil"
 	"github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/reporters"
 	"github.com/onsi/gomega"
 	"github.com/pborman/uuid"
 	"k8s.io/kubernetes/test/e2e/framework"
-	"sigs.k8s.io/blobfuse-csi-driver/pkg/blobfuse"
-	"sigs.k8s.io/blobfuse-csi-driver/test/utils/azure"
-	"sigs.k8s.io/blobfuse-csi-driver/test/utils/credentials"
-	"sigs.k8s.io/blobfuse-csi-driver/test/utils/testutil"
 )
 
 const (
@@ -44,7 +44,7 @@ const (
 	defaultReportDir = "/workspace/_artifacts"
 )
 
-var blobfuseDriver *blobfuse.Driver
+var goofysDriver *goofys.Driver
 
 type testCmd struct {
 	command  string
@@ -92,20 +92,20 @@ var _ = ginkgo.BeforeSuite(func() {
 		execTestCmd([]testCmd{e2eBootstrap})
 
 		nodeid := os.Getenv("nodeid")
-		blobfuseDriver = blobfuse.NewDriver(nodeid)
+		goofysDriver = goofys.NewDriver(nodeid)
 		go func() {
 			os.Setenv("AZURE_CREDENTIAL_FILE", credentials.TempAzureCredentialFilePath)
-			blobfuseDriver.Run(fmt.Sprintf("unix:///tmp/csi-%s.sock", uuid.NewUUID().String()))
+			goofysDriver.Run(fmt.Sprintf("unix:///tmp/csi-%s.sock", uuid.NewUUID().String()))
 		}()
 	}
 })
 
 var _ = ginkgo.AfterSuite(func() {
 	if testutil.IsRunningInProw() {
-		blobfuseLog := testCmd{
+		goofysLog := testCmd{
 			command:  "sh",
-			args:     []string{"test/utils/blobfuse_log.sh"},
-			startLog: "===================blobfuse log===================",
+			args:     []string{"test/utils/goofys_log.sh"},
+			startLog: "===================goofys log===================",
 			endLog:   "==================================================",
 		}
 		e2eTeardown := testCmd{
@@ -114,7 +114,7 @@ var _ = ginkgo.AfterSuite(func() {
 			startLog: "Uninstalling goofys CSI Driver...",
 			endLog:   "goofys CSI Driver uninstalled",
 		}
-		execTestCmd([]testCmd{blobfuseLog, e2eTeardown})
+		execTestCmd([]testCmd{goofysLog, e2eTeardown})
 
 		err := credentials.DeleteAzureCredentialFile()
 		gomega.Expect(err).NotTo(gomega.HaveOccurred())
@@ -141,7 +141,7 @@ func execTestCmd(cmds []testCmd) {
 
 	projectRoot, err := os.Getwd()
 	gomega.Expect(err).NotTo(gomega.HaveOccurred())
-	gomega.Expect(strings.HasSuffix(projectRoot, "blobfuse-csi-driver")).To(gomega.Equal(true))
+	gomega.Expect(strings.HasSuffix(projectRoot, "goofys-csi-driver")).To(gomega.Equal(true))
 
 	for _, cmd := range cmds {
 		log.Println(cmd.startLog)

@@ -17,9 +17,9 @@
 set -uo pipefail
 
 echo 'Uninstalling goofys CSI driver...'
-kubectl delete -f deploy/csi-blobfuse-controller.yaml
-kubectl delete -f deploy/csi-blobfuse-node.yaml
+kubectl delete -f deploy/csi-goofys-controller.yaml
+kubectl delete -f deploy/csi-goofys-node.yaml
 kubectl delete -f deploy/crd-csi-driver-registry.yaml
 kubectl delete -f deploy/crd-csi-node-info.yaml
-kubectl delete -f deploy/rbac-csi-blobfuse-controller.yaml
+kubectl delete -f deploy/rbac-csi-goofys-controller.yaml
 echo 'goofys CSI driver uninstalled'

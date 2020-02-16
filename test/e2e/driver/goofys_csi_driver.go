@@ -19,7 +19,7 @@ package driver
 import (
 	"fmt"
 
-	"sigs.k8s.io/blobfuse-csi-driver/pkg/blobfuse"
+	"github.com/csi-driver/goofys-csi-driver/pkg/goofys"
 
 	"github.com/kubernetes-csi/external-snapshotter/pkg/apis/volumesnapshot/v1alpha1"
 	v1 "k8s.io/api/core/v1"
@@ -36,7 +36,7 @@ type blobFuseCSIDriver struct {
 // InitBlobFuseCSIDriver returns blobFuseCSIDriver that implemnts DynamicPVTestDriver interface
 func InitBlobFuseCSIDriver() PVTestDriver {
 	return &blobFuseCSIDriver{
-		driverName: blobfuse.DriverName,
+		driverName: goofys.DriverName,
 	}
 }
 

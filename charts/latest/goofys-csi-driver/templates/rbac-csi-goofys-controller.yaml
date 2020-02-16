@@ -2,8 +2,8 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-external-provisioner-role
-{{ include "blobfuse.labels" . | indent 2 }}
+  name: goofys-external-provisioner-role
+{{ include "goofys.labels" . | indent 2 }}
 rules:
   - apiGroups: [""]
     resources: ["persistentvolumes"]
@@ -32,16 +32,16 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-csi-provisioner-binding
+  name: goofys-csi-provisioner-binding
   namespace: {{ .Release.Namespace }}
-{{ include "blobfuse.labels" . | indent 2 }}
+{{ include "goofys.labels" . | indent 2 }}
 subjects:
   - kind: ServiceAccount
-    name: csi-blobfuse-controller-sa
+    name: csi-goofys-controller-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: blobfuse-external-provisioner-role
+  name: goofys-external-provisioner-role
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -49,8 +49,8 @@ roleRef:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-external-attacher-role
-{{ include "blobfuse.labels" . | indent 2 }}
+  name: goofys-external-attacher-role
+{{ include "goofys.labels" . | indent 2 }}
 rules:
   - apiGroups: [""]
     resources: ["persistentvolumes"]
@@ -73,16 +73,16 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-csi-attacher-binding
+  name: goofys-csi-attacher-binding
   namespace: {{ .Release.Namespace }}
-{{ include "blobfuse.labels" . | indent 2 }}
+{{ include "goofys.labels" . | indent 2 }}
 subjects:
   - kind: ServiceAccount
-    name: csi-blobfuse-controller-sa
+    name: csi-goofys-controller-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: blobfuse-external-attacher-role
+  name: goofys-external-attacher-role
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -90,8 +90,8 @@ roleRef:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-cluster-driver-registrar-role
-{{ include "blobfuse.labels" . | indent 2 }}
+  name: goofys-cluster-driver-registrar-role
+{{ include "goofys.labels" . | indent 2 }}
 rules:
   - apiGroups: ["apiextensions.k8s.io"]
     resources: ["customresourcedefinitions"]
@@ -108,16 +108,16 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-csi-driver-registrar-binding
+  name: goofys-csi-driver-registrar-binding
   namespace: {{ .Release.Namespace }}
-{{ include "blobfuse.labels" . | indent 2 }}
+{{ include "goofys.labels" . | indent 2 }}
 subjects:
   - kind: ServiceAccount
-    name: csi-blobfuse-controller-sa
+    name: csi-goofys-controller-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: blobfuse-cluster-driver-registrar-role
+  name: goofys-cluster-driver-registrar-role
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -125,8 +125,8 @@ roleRef:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-external-snapshotter-role
-{{ include "blobfuse.labels" . | indent 2 }}
+  name: goofys-external-snapshotter-role
+{{ include "goofys.labels" . | indent 2 }}
 rules:
   - apiGroups: [""]
     resources: ["persistentvolumes"]
@@ -164,15 +164,15 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: blobfuse-csi-snapshotter-binding
+  name: goofys-csi-snapshotter-binding
   namespace: {{ .Release.Namespace }}
-{{ include "blobfuse.labels" . | indent 2 }}
+{{ include "goofys.labels" . | indent 2 }}
 subjects:
   - kind: ServiceAccount
-    name: csi-blobfuse-controller-sa
+    name: csi-goofys-controller-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: blobfuse-external-snapshotter-role
+  name: goofys-external-snapshotter-role
   apiGroup: rbac.authorization.k8s.io
 {{ end }}

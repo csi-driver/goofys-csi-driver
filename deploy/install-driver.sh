@@ -18,6 +18,6 @@ set -uo pipefail
 
 kubectl apply -f deploy/crd-csi-driver-registry.yaml
 kubectl apply -f deploy/crd-csi-node-info.yaml
-kubectl apply -f deploy/rbac-csi-blobfuse-controller.yaml
-kubectl apply -f deploy/csi-blobfuse-controller.yaml
-kubectl apply -f deploy/csi-blobfuse-node.yaml
+kubectl apply -f deploy/rbac-csi-goofys-controller.yaml
+kubectl apply -f deploy/csi-goofys-controller.yaml
+kubectl apply -f deploy/csi-goofys-node.yaml

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-blobfuse
+  name: pv-goofys
 spec:
   capacity:
     storage: 10Gi
@@ -9,7 +9,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain #If set as "Delete" container would be removed after pvc deletion
   csi:
-    driver: blobfuse.csi.azure.com
+    driver: goofys.csi.azure.com
     readOnly: false
     volumeHandle: arbitrary-volumeid
     volumeAttributes:

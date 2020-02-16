@@ -19,8 +19,8 @@ package e2e
 import (
 	"fmt"
 
-	"sigs.k8s.io/blobfuse-csi-driver/test/e2e/driver"
-	"sigs.k8s.io/blobfuse-csi-driver/test/e2e/testsuites"
+	"github.com/csi-driver/goofys-csi-driver/test/e2e/driver"
+	"github.com/csi-driver/goofys-csi-driver/test/e2e/testsuites"
 
 	"github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
@@ -28,8 +28,8 @@ import (
 	"k8s.io/kubernetes/test/e2e/framework"
 )
 
-var _ = ginkgo.Describe("[blobfuse-csi-e2e] Dynamic Provisioning", func() {
-	f := framework.NewDefaultFramework("blobfuse")
+var _ = ginkgo.Describe("[goofys-csi-e2e] Dynamic Provisioning", func() {
+	f := framework.NewDefaultFramework("goofys")
 
 	var (
 		cs         clientset.Interface
@@ -188,7 +188,7 @@ var _ = ginkgo.Describe("[blobfuse-csi-e2e] Dynamic Provisioning", func() {
 		test := testsuites.DynamicallyProvisionedReclaimPolicyTest{
 			CSIDriver: testDriver,
 			Volumes:   volumes,
-			goofys:    blobfuseDriver,
+			Goofys:    goofysDriver,
 		}
 		test.Run(cs, ns)
 	})

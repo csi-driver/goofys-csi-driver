@@ -25,17 +25,17 @@ function install_csi_sanity_bin {
 }
 
 function cleanup {
-  echo 'pkill -f blobfuseplugin'
-  pkill -f blobfuseplugin
+  echo 'pkill -f goofysplugin'
+  pkill -f goofysplugin
   echo 'Deleting CSI sanity test binary'
   rm -rf $GOPATH/src/github.com/kubernetes-csi
 }
 
 trap cleanup EXIT
 
-# copy blobfuse binary
+# copy goofys binary
 mkdir -p /usr/blob
-cp test/artifacts/blobfuse /usr/bin/blobfuse
+cp test/artifacts/goofys /usr/bin/goofys
 
 install_csi_sanity_bin
 apt update && apt install libfuse2 -y

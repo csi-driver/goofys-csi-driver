@@ -1,5 +1,5 @@
 apiVersion: v1
 appVersion: latest
 description: BlobFuse Container Storage Interface (CSI) Storage Plugin
-name: blobfuse-csi-driver
+name: goofys-csi-driver
 version: latest

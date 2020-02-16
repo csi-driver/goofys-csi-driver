@@ -1,6 +1,6 @@
 image:
-  blobfuse:
-    repository: mcr.microsoft.com/k8s/csi/blobfuse-csi
+  goofys:
+    repository: mcr.microsoft.com/k8s/csi/goofys-csi
     tag: latest
     pullPolicy: Always
   csiProvisioner:

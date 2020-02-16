@@ -17,8 +17,8 @@ limitations under the License.
 package testsuites
 
 import (
-	"sigs.k8s.io/blobfuse-csi-driver/pkg/blobfuse"
-	"sigs.k8s.io/blobfuse-csi-driver/test/e2e/driver"
+	"github.com/csi-driver/goofys-csi-driver/pkg/goofys"
+	"github.com/csi-driver/goofys-csi-driver/test/e2e/driver"
 
 	v1 "k8s.io/api/core/v1"
 	clientset "k8s.io/client-go/kubernetes"
@@ -29,7 +29,7 @@ import (
 type DynamicallyProvisionedReclaimPolicyTest struct {
 	CSIDriver driver.DynamicPVTestDriver
 	Volumes   []VolumeDetails
-	goofys    *blobfuse.Driver
+	Goofys    *goofys.Driver
 }
 
 func (t *DynamicallyProvisionedReclaimPolicyTest) Run(client clientset.Interface, namespace *v1.Namespace) {
@@ -43,7 +43,7 @@ func (t *DynamicallyProvisionedReclaimPolicyTest) Run(client clientset.Interface
 		if tpvc.ReclaimPolicy() == v1.PersistentVolumeReclaimRetain {
 			tpvc.WaitForPersistentVolumePhase(v1.VolumeReleased)
 			tpvc.DeleteBoundPersistentVolume()
-			tpvc.DeleteBackingVolume(t.goofys)
+			tpvc.DeleteBackingVolume(t.Goofys)
 		}
 	}
 }

@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-blobfuse
+  name: pvc-goofys
 spec:
   accessModes:
   - ReadWriteMany
   resources:
     requests:
       storage: 10Gi
-  storageClassName: blobfuse.csi.azure.com
+  storageClassName: goofys.csi.azure.com

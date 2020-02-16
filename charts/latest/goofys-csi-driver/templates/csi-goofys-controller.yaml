@@ -1,20 +1,20 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: csi-blobfuse-controller
+  name: csi-goofys-controller
   namespace: {{ .Release.Namespace }}
-{{ include "blobfuse.labels" . | indent 2 }}
+{{ include "goofys.labels" . | indent 2 }}
 spec:
   replicas: {{ .Values.controller.replicas }}
   selector:
     matchLabels:
-      app: csi-blobfuse-controller
+      app: csi-goofys-controller
   template:
     metadata:
-{{ include "blobfuse.labels" . | indent 6 }}
-        app: csi-blobfuse-controller
+{{ include "goofys.labels" . | indent 6 }}
+        app: csi-goofys-controller
     spec:
-      serviceAccountName: csi-blobfuse-controller-sa
+      serviceAccountName: csi-goofys-controller-sa
       nodeSelector:
         beta.kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
@@ -23,7 +23,7 @@ spec:
           image: {{ .Values.image.csiProvisioner.repository }}:{{ .Values.image.csiProvisioner.tag }}
           args:
             - "-v=5"
-            - "--provisioner=blobfuse.csi.azure.com"
+            - "--provisioner=goofys.csi.azure.com"
             - "--csi-address=$(ADDRESS)"
             - "--connection-timeout=15s"
             - "--enable-leader-election"
@@ -101,8 +101,8 @@ spec:
             requests:
               cpu: 10m
               memory: 20Mi
-        - name: blobfuse
-          image: "{{ .Values.image.blobfuse.repository }}:{{ .Values.image.blobfuse.tag }}"
+        - name: goofys
+          image: "{{ .Values.image.goofys.repository }}:{{ .Values.image.goofys.tag }}"
           args:
             - "--v=5"
             - "--endpoint=$(CSI_ENDPOINT)"
@@ -127,7 +127,7 @@ spec:
               value: "/etc/kubernetes/azure.json"
             - name: CSI_ENDPOINT
               value: unix:///csi/csi.sock
-          imagePullPolicy: {{ .Values.image.blobfuse.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.goofys.pullPolicy }}
           volumeMounts:
             - mountPath: /csi
               name: socket-dir

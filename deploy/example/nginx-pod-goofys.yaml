@@ -1,19 +1,19 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: nginx-blobfuse
+  name: nginx-goofys
 spec:
   containers:
   - image: nginx
-    name: nginx-blobfuse
+    name: nginx-goofys
     command:
     - "/bin/sh"
     - "-c"
-    - while true; do echo $(date) >> /mnt/blobfuse/outfile; sleep 1; done
+    - while true; do echo $(date) >> /mnt/goofys/outfile; sleep 1; done
     volumeMounts:
-    - name: blobfuse01
-      mountPath: "/mnt/blobfuse"
+    - name: goofys01
+      mountPath: "/mnt/goofys"
   volumes:
-  - name: blobfuse01
+  - name: goofys01
     persistentVolumeClaim:
-      claimName: pvc-blobfuse
+      claimName: pvc-goofys

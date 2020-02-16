@@ -1,19 +1,19 @@
 # goofys CSI driver for Kubernetes
-[![Coverage Status](https://coveralls.io/github/kubernetes-sigs/goofys-csi-driver?branch=master)](https://coveralls.io/github/kubernetes-sigs/goofys-csi-driver?branch=master)
+[![Coverage Status](https://coveralls.io/github/csi-driver/goofys-csi-driver?branch=master)](https://coveralls.io/github/csi-driver/goofys-csi-driver?branch=master)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcsi-driver%2Fgoofys-csi-driver.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcsi-driver%2Fgoofys-csi-driver?ref=badge_shield)
 
 ### About
-This driver allows Kubernetes to use [azure-storage-fuse](https://github.com/Azure/azure-storage-fuse), csi plugin name: `goofys.csi.azure.com`
+This driver allows Kubernetes to use [goofys](https://github.com/kahing/goofys), csi plugin name: `goofys.csi.azure.com`
 
 ### Container Images & CSI Compatibility:
-|goofys CSI Driver Version    | Image                                              | v1.0.0 |
-|-------------------------------|----------------------------------------------------|--------|
-|master branch                  |mcr.microsoft.com/k8s/csi/goofys-csi:latest       | yes    |
+|goofys CSI Driver Version    | Image                               | v1.0.0 |
+|-----------------------------|------------------------------------ |--------|
+|master branch                |andyzhangx/goofys-csi:latest       | yes    |
 
 ### Kubernetes Compatibility
 | goofys CSI Driver\Kubernetes Version   | 1.14+ |
-|------------------------------------------|-------|
-| master branch                            | yes   |
+|----------------------------------------|-------|
+| master branch                          | yes   |
 
 ### Driver parameters
 Please refer to `goofys.csi.azure.com` [driver parameters](./docs/driver-parameters.md)
@@ -34,8 +34,7 @@ Please refer to [development guide](./docs/csi-dev.md)
 
 
 ### Links
- - [azure-storage-fuse](https://github.com/Azure/azure-storage-fuse)
- - [goofys flexvolume driver](https://github.com/Azure/kubernetes-volume-drivers/tree/master/flexvolume/goofys)
+ - [azure-storage-fuse](https://github.com/kahing/goofys)
  - [Kubernetes CSI Documentation](https://kubernetes-csi.github.io/docs/Home.html)
  - [Analysis of the CSI Spec](https://blog.thecodeteam.com/2017/11/03/analysis-csi-spec/)
  - [CSI Drivers](https://github.com/kubernetes-csi/drivers)

@@ -20,8 +20,8 @@ import (
 	"context"
 	"fmt"
 
-	"sigs.k8s.io/blobfuse-csi-driver/test/e2e/driver"
-	"sigs.k8s.io/blobfuse-csi-driver/test/e2e/testsuites"
+	"github.com/csi-driver/goofys-csi-driver/test/e2e/driver"
+	"github.com/csi-driver/goofys-csi-driver/test/e2e/testsuites"
 
 	"github.com/container-storage-interface/spec/lib/go/csi"
 	"github.com/onsi/ginkgo"
@@ -38,8 +38,8 @@ var (
 	defaultVolumeSizeBytes int64 = defaultVolumeSize * 1024 * 1024 * 1024
 )
 
-var _ = ginkgo.Describe("[blobfuse-csi-e2e] Pre-Provisioned", func() {
-	f := framework.NewDefaultFramework("blobfuse")
+var _ = ginkgo.Describe("[goofys-csi-e2e] Pre-Provisioned", func() {
+	f := framework.NewDefaultFramework("goofys")
 
 	var (
 		cs         clientset.Interface
@@ -69,7 +69,7 @@ var _ = ginkgo.Describe("[blobfuse-csi-e2e] Pre-Provisioned", func() {
 			req := &csi.DeleteVolumeRequest{
 				VolumeId: volumeID,
 			}
-			_, err := blobfuseDriver.DeleteVolume(context.Background(), req)
+			_, err := goofysDriver.DeleteVolume(context.Background(), req)
 			if err != nil {
 				ginkgo.Fail(fmt.Sprintf("create volume %q error: %v", volumeID, err))
 			}
@@ -78,7 +78,7 @@ var _ = ginkgo.Describe("[blobfuse-csi-e2e] Pre-Provisioned", func() {
 
 	ginkgo.It("[env] should use a pre-provisioned volume and mount it as readOnly in a pod", func() {
 		req := makeCreateVolumeReq("pre-provisioned-readOnly")
-		resp, err := blobfuseDriver.CreateVolume(context.Background(), req)
+		resp, err := goofysDriver.CreateVolume(context.Background(), req)
 		if err != nil {
 			ginkgo.Fail(fmt.Sprintf("create volume error: %v", err))
 		}
@@ -112,7 +112,7 @@ var _ = ginkgo.Describe("[blobfuse-csi-e2e] Pre-Provisioned", func() {
 
 	ginkgo.It(fmt.Sprintf("[env] should use a pre-provisioned volume and retain PV with reclaimPolicy %q", v1.PersistentVolumeReclaimRetain), func() {
 		req := makeCreateVolumeReq("pre-provisioned-retain-reclaimPolicy")
-		resp, err := blobfuseDriver.CreateVolume(context.Background(), req)
+		resp, err := goofysDriver.CreateVolume(context.Background(), req)
 		if err != nil {
 			ginkgo.Fail(fmt.Sprintf("create volume error: %v", err))
 		}

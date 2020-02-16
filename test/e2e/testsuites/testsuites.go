@@ -22,7 +22,7 @@ import (
 	"math/rand"
 	"time"
 
-	"sigs.k8s.io/blobfuse-csi-driver/pkg/blobfuse"
+	"github.com/csi-driver/goofys-csi-driver/pkg/goofys"
 
 	"github.com/container-storage-interface/spec/lib/go/csi"
 	"github.com/kubernetes-csi/external-snapshotter/pkg/apis/volumesnapshot/v1alpha1"
@@ -345,9 +345,9 @@ func (t *TestPersistentVolumeClaim) DeleteBoundPersistentVolume() {
 	framework.ExpectNoError(err)
 }
 
-func (t *TestPersistentVolumeClaim) DeleteBackingVolume(azfile *blobfuse.Driver) {
+func (t *TestPersistentVolumeClaim) DeleteBackingVolume(azfile *goofys.Driver) {
 	volumeID := t.persistentVolume.Spec.CSI.VolumeHandle
-	ginkgo.By(fmt.Sprintf("deleting blobfuse volume %q", volumeID))
+	ginkgo.By(fmt.Sprintf("deleting goofys volume %q", volumeID))
 	req := &csi.DeleteVolumeRequest{
 		VolumeId: volumeID,
 	}
@@ -365,7 +365,7 @@ type TestDeployment struct {
 }
 
 func NewTestDeployment(c clientset.Interface, ns *v1.Namespace, command string, pvc *v1.PersistentVolumeClaim, volumeName, mountPath string, readOnly bool) *TestDeployment {
-	generateName := "blobfuse-volume-tester-"
+	generateName := "goofys-volume-tester-"
 	selectorValue := fmt.Sprintf("%s%d", generateName, rand.Int())
 	replicas := int32(1)
 	return &TestDeployment{
@@ -491,7 +491,7 @@ func NewTestPod(c clientset.Interface, ns *v1.Namespace, command string) *TestPo
 		namespace: ns,
 		pod: &v1.Pod{
 			ObjectMeta: metav1.ObjectMeta{
-				GenerateName: "blobfuse-volume-tester-",
+				GenerateName: "goofys-volume-tester-",
 			},
 			Spec: v1.PodSpec{
 				Containers: []v1.Container{

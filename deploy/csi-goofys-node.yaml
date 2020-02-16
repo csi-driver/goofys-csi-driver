@@ -2,16 +2,16 @@
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
-  name: csi-blobfuse-node
+  name: csi-goofys-node
   namespace: kube-system
 spec:
   selector:
     matchLabels:
-      app: csi-blobfuse-node
+      app: csi-goofys-node
   template:
     metadata:
       labels:
-        app: csi-blobfuse-node
+        app: csi-goofys-node
     spec:
       nodeSelector:
         beta.kubernetes.io/os: linux
@@ -44,12 +44,12 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "rm -rf /registration/blobfuse.csi.azure.com-reg.sock /csi/csi.sock"]
+                command: ["/bin/sh", "-c", "rm -rf /registration/goofys.csi.azure.com-reg.sock /csi/csi.sock"]
           env:
             - name: ADDRESS
               value: /csi/csi.sock
             - name: DRIVER_REG_SOCK_PATH
-              value: /var/lib/kubelet/plugins/blobfuse.csi.azure.com/csi.sock
+              value: /var/lib/kubelet/plugins/goofys.csi.azure.com/csi.sock
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -62,8 +62,8 @@ spec:
             requests:
               cpu: 10m
               memory: 20Mi
-        - name: blobfuse
-          image: mcr.microsoft.com/k8s/csi/blobfuse-csi:latest
+        - name: goofys
+          image: mcr.microsoft.com/k8s/csi/goofys-csi:latest
           args:
             - "--v=5"
             - "--endpoint=$(CSI_ENDPOINT)"
@@ -105,7 +105,7 @@ spec:
               readOnly: true
               name: msi
             - mountPath: /mnt
-              name: blobfuse-cache
+              name: goofys-cache
           resources:
             limits:
               cpu: 4
@@ -115,7 +115,7 @@ spec:
               memory: 20Mi
       volumes:
         - hostPath:
-            path: /var/lib/kubelet/plugins/blobfuse.csi.azure.com
+            path: /var/lib/kubelet/plugins/goofys.csi.azure.com
             type: DirectoryOrCreate
           name: socket-dir
         - hostPath:
@@ -135,5 +135,5 @@ spec:
           name: msi
         - hostPath:
             path: /mnt
-          name: blobfuse-cache
+          name: goofys-cache
 ---

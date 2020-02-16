@@ -17,22 +17,22 @@
 set -e
 
 NS=kube-system
-CONTAINER=blobfuse
+CONTAINER=goofys
 
 echo "print out all $NS namespace pods status ..."
 kubectl get pods -n${NS}
 echo "======================================================================================"
 
-echo "print out csi-blobfuse-controller logs ..."
+echo "print out csi-goofys-controller logs ..."
 echo "======================================================================================"
-LABEL='app=csi-blobfuse-controller'
+LABEL='app=csi-goofys-controller'
 kubectl get pods -n${NS} -l${LABEL} \
     | awk 'NR>1 {print $1}' \
     | xargs -I {} kubectl logs {} --prefix -c${CONTAINER} -n${NS}
 
-echo "print out csi-blobfuse-node logs ..."
+echo "print out csi-goofys-node logs ..."
 echo "======================================================================================"
-LABEL='app=csi-blobfuse-node'
+LABEL='app=csi-goofys-node'
 kubectl get pods -n${NS} -l${LABEL} \
     | awk 'NR>1 {print $1}' \
     | xargs -I {} kubectl logs {} --prefix -c${CONTAINER} -n${NS}

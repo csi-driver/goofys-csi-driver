@@ -1,7 +1,7 @@
 {{/* vim: set filetype=mustache: */}}
 
 {{/* labels for helm resources */}}
-{{- define "blobfuse.labels" -}}
+{{- define "goofys.labels" -}}
 labels:
   heritage: "{{ .Release.Service }}"
   release: "{{ .Release.Name }}"

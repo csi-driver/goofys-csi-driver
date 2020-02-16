@@ -19,7 +19,7 @@ if [[ -z "$(command -v yamllint)" ]]; then
 fi
 
 LOG=/tmp/yamllint.log
-helmPath=charts/latest/blobfuse-csi-driver/templates
+helmPath=charts/latest/goofys-csi-driver/templates
 
 yamllint -f parsable deploy/*.yaml | grep -v "line too long" > $LOG
 cat $LOG

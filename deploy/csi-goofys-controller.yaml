@@ -2,19 +2,19 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: csi-blobfuse-controller
+  name: csi-goofys-controller
   namespace: kube-system
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: csi-blobfuse-controller
+      app: csi-goofys-controller
   template:
     metadata:
       labels:
-        app: csi-blobfuse-controller
+        app: csi-goofys-controller
     spec:
-      serviceAccountName: csi-blobfuse-controller-sa
+      serviceAccountName: csi-goofys-controller-sa
       nodeSelector:
         beta.kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
@@ -23,7 +23,7 @@ spec:
           image: mcr.microsoft.com/oss/kubernetes-csi/csi-provisioner:v1.4.0
           args:
             - "-v=5"
-            - "--provisioner=blobfuse.csi.azure.com"
+            - "--provisioner=goofys.csi.azure.com"
             - "--csi-address=$(ADDRESS)"
             - "--connection-timeout=15s"
             - "--enable-leader-election"
@@ -99,8 +99,8 @@ spec:
             requests:
               cpu: 10m
               memory: 20Mi
-        - name: blobfuse
-          image: mcr.microsoft.com/k8s/csi/blobfuse-csi:latest
+        - name: goofys
+          image: mcr.microsoft.com/k8s/csi/goofys-csi:latest
           args:
             - "--v=5"
             - "--endpoint=$(CSI_ENDPOINT)"
