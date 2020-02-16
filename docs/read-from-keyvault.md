@@ -21,7 +21,7 @@
    ```
 
 ## Install goofys CSI driver on a kubernetes cluster
-Please refer to [install goofys csi driver](https://github.com/kubernetes-sigs/goofys-csi-driver/blob/master/docs/install-goofys-csi-driver.md)
+Please refer to [install goofys csi driver](https://github.com/csi-driver/goofys-csi-driver/blob/master/docs/install-goofys-csi-driver.md)
 
 ## Create PV
 1.  Download a `pv-goofys-csi-keyvault.yaml`, edit `keyVaultURL`, `keyVaultSecretName`, `containerName` in PV

@@ -3,7 +3,7 @@
  - Clone repo
 ```console
 $ mkdir -p $GOPATH/src/sigs.k8s.io
-$ git clone https://github.com/kubernetes-sigs/goofys-csi-driver $GOPATH/src/sigs.k8s.io
+$ git clone https://github.com/csi-driver/goofys-csi-driver $GOPATH/src/sigs.k8s.io
 ```
 
  - Build goofys driver

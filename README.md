@@ -24,7 +24,7 @@ Please refer to `goofys.csi.azure.com` [driver parameters](./docs/driver-paramet
  > if cluster is based on Managed Service Identity(MSI), make sure all agent nodes have `Contributor` role for current resource group
 
 ### Install goofys CSI driver on a kubernetes cluster
-Please refer to [install goofys csi driver](https://github.com/kubernetes-sigs/goofys-csi-driver/blob/master/docs/install-goofys-csi-driver.md)
+Please refer to [install goofys csi driver](https://github.com/csi-driver/goofys-csi-driver/blob/master/docs/install-goofys-csi-driver.md)
 
 ### Examples
  - [Basic usage](./deploy/example/e2e_usage.md)
@@ -34,7 +34,7 @@ Please refer to [development guide](./docs/csi-dev.md)
 
 
 ### Links
- - [azure-storage-fuse](https://github.com/kahing/goofys)
+ - [goofys](https://github.com/kahing/goofys)
  - [Kubernetes CSI Documentation](https://kubernetes-csi.github.io/docs/Home.html)
  - [Analysis of the CSI Spec](https://blog.thecodeteam.com/2017/11/03/analysis-csi-spec/)
  - [CSI Drivers](https://github.com/kubernetes-csi/drivers)
