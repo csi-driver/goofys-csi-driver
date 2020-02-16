@@ -29,7 +29,7 @@ import (
 type DynamicallyProvisionedReclaimPolicyTest struct {
 	CSIDriver driver.DynamicPVTestDriver
 	Volumes   []VolumeDetails
-	goofys  *blobfuse.Driver
+	goofys    *blobfuse.Driver
 }
 
 func (t *DynamicallyProvisionedReclaimPolicyTest) Run(client clientset.Interface, namespace *v1.Namespace) {

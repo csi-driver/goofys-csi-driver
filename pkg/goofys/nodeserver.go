@@ -142,31 +142,25 @@ func (d *Driver) NodeStageVolume(ctx context.Context, req *csi.NodeStageVolumeRe
 	attrib := req.GetVolumeContext()
 	secrets := req.GetSecrets()
 
-	accountName, accountKey, accountSasToken, containerName, err := d.getStorageAccountAndContainer(ctx, volumeID, attrib, secrets)
+	accountName, accountKey, _, containerName, err := d.getStorageAccountAndContainer(ctx, volumeID, attrib, secrets)
 	if err != nil {
 		return nil, err
 	}
 
 	// Get mountOptions that the volume will be formatted and mounted with
-	options := []string{"--use-https=true"}
+	options := []string{}
 	mountOptions := util.JoinMountOptions(mountFlags, options)
 
-	args := targetPath + " " + "--tmp-path=/mnt/" + volumeID + " " + "--container-name=" + containerName
-	for _, opt := range mountOptions {
-		args = args + " " + opt
-	}
+	args := fmt.Sprintf("wasb://%s@%s.blob.core.windows.net", containerName, accountName)
+	args = args + " " + targetPath
 	klog.V(2).Infof("target %v\nfstype %v\n\nvolumeId %v\ncontext %v\nmountflags %v\nmountOptions %v\nargs %v\n",
 		targetPath, fsType, volumeID, attrib, mountFlags, mountOptions, args)
 	cmd := exec.Command("goofys", strings.Split(args, " ")...)
 	cmd.Env = append(os.Environ(), "AZURE_STORAGE_ACCOUNT="+accountName)
-
-	if accountSasToken != "" {
-		cmd.Env = append(cmd.Env, "AZURE_STORAGE_SAS_TOKEN="+accountSasToken)
-	} else {
-		cmd.Env = append(cmd.Env, "AZURE_STORAGE_ACCESS_KEY="+accountKey)
-	}
+	cmd.Env = append(cmd.Env, "AZURE_STORAGE_KEY="+accountKey)
 
 	output, err := cmd.CombinedOutput()
+	klog.V(2).Infof("Mount result: %v: %v", string(output), err)
 	if err != nil {
 		err = fmt.Errorf("Mount failed with error: %v, output: %v", err, string(output))
 		klog.Errorf("%v", err)
