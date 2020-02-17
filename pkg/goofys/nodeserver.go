@@ -152,6 +152,9 @@ func (d *Driver) NodeStageVolume(ctx context.Context, req *csi.NodeStageVolumeRe
 		args = args + opt + " "
 	}
 	args = strings.TrimSpace(args)
+	if args != "" {
+		args = args + " "
+	}
 	args = args + fmt.Sprintf("wasb://%s@%s.blob.core.windows.net %s", containerName, accountName, targetPath)
 	klog.V(2).Infof("target %v\nfstype %v\n\nvolumeId %v\ncontext %v\nmountflags %v\nargs %v\n",
 		targetPath, fsType, volumeID, attrib, mountFlags, args)
