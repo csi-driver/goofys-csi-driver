@@ -7,7 +7,7 @@
 Name | Meaning | Example | Mandatory | Default value 
 --- | --- | --- | --- | ---
 skuName | Azure blob storage account type (alias: `storageAccountType`) | `Standard_LRS`, `Standard_GRS`, `Standard_RAGRS`, Premium_LRS`, `Premium_GRS`, `Premium_RAGRS` | No | `Standard_LRS`
-location | specify the location in which blob contianer will be created | `eastus`, `westus`, etc. | No | if empty, driver will use the same location name as current k8s cluster
+location | specify the location in which blob container will be created | `eastus`, `westus`, etc. | No | if empty, driver will use the same location name as current k8s cluster
 resourceGroup | specify the existing resource group name where the container is | existing resource group name | No | if empty, driver will use the same resource group name as current k8s cluster
 storageAccount | specify the storage account name in which blob container will be created | STORAGE_ACCOUNT_NAME | No | if empty, driver will find a suitable storage account that matches `skuName` in the same resource group; if a storage account name is provided, it means that storage account must exist otherwise there would be error
 containerName | specify the existing container name where blob storage will be created | existing container name | No | if empty, driver will create a new container name, starting with `pvc-fuse`

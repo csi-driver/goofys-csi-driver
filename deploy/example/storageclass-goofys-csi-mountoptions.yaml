@@ -9,4 +9,5 @@ reclaimPolicy: Retain #If set as "Delete" container would be removed after pvc d
 volumeBindingMode: Immediate
 mountOptions:
   - -o allow_other
-  - --file-cache-timeout-in-seconds=120
+  - --file-mode=0777
+  - --dir-mode=0777
