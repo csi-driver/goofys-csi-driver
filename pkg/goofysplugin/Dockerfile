@@ -13,7 +13,7 @@
 # limitations under the License.
 
 FROM mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.5
-RUN apt-get update && apt-get install -y ca-certificates pkg-config libfuse-dev cmake libcurl4-gnutls-dev libgnutls28-dev uuid-dev libgcrypt20-dev
+RUN apt-get update && apt-get install -y ca-certificates pkg-config libfuse-dev cmake libcurl4-gnutls-dev libgnutls28-dev uuid-dev libgcrypt20-dev fuse
 RUN wget -O /usr/local/bin/goofys https://github.com/kahing/goofys/releases/download/v0.23.1/goofys
 RUN chmod a+x /usr/local/bin/goofys
 LABEL maintainers="andyzhangx"

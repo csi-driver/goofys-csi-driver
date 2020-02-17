@@ -4,7 +4,7 @@ metadata:
   name: goofys.csi.azure.com
 provisioner: goofys.csi.azure.com
 parameters:
-  skuName: Standard_LRS  #available values: Standard_LRS, Standard_GRS, Standard_RAGRS
-  containerName: test #if container "test" does not exist, driver will create "test" container
-reclaimPolicy: Retain #If set as "Delete" container would be removed after pvc deletion
+  skuName: Premium_LRS  # available values: Premium_LRS, Premium_GRS, Premium_RAGRS
+  containerName: test  # if container "test" does not exist, driver will create "test" container
+reclaimPolicy: Retain  # If set as "Delete" container would be removed after pvc deletion
 volumeBindingMode: Immediate

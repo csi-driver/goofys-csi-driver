@@ -72,6 +72,8 @@ spec:
             - containerPort: 29623
               name: healthz
               protocol: TCP
+          securityContext:
+            privileged: true
           livenessProbe:
             failureThreshold: 5
             httpGet:
