@@ -64,10 +64,12 @@ kubectl create -f https://raw.githubusercontent.com/csi-driver/goofys-csi-driver
 ```console
 $ watch kubectl describe po nginx-goofys
 $ kubectl exec -it nginx-goofys -- bash
-Filesystem      Size  Used Avail Use% Mounted on
-...
-goofys         30G  8.9G   21G  31% /mnt/goofys
-/dev/sda1        30G  8.9G   21G  31% /etc/hosts
-...
+root@nginx-goofys:/# df -h
+Filesystem                                                 Size  Used Avail Use% Mounted on
+overlay                                                     29G   25G  4.4G  85% /
+tmpfs                                                       64M     0   64M   0% /dev
+tmpfs                                                      3.4G     0  3.4G   0% /sys/fs/cgroup
+/dev/sda1                                                   29G   25G  4.4G  85% /etc/hosts
+wasb://test@fuse1a4e32b786ae4629b8d.blob.core.windows.net  1.0P     0  1.0P   0% /mnt/goofys
 ```
 In the above example, there is a `/mnt/goofys` directory mounted as `goofys` filesystem.
