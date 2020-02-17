@@ -25,7 +25,6 @@ import (
 
 	"github.com/container-storage-interface/spec/lib/go/csi"
 	"k8s.io/klog"
-	"k8s.io/kubernetes/pkg/volume/util"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -149,14 +148,13 @@ func (d *Driver) NodeStageVolume(ctx context.Context, req *csi.NodeStageVolumeRe
 
 	// Get mountOptions that the volume will be formatted and mounted with
 	var args string
-	mountOptions := util.JoinMountOptions(mountFlags, []string{})
-	for _, opt := range mountOptions {
-		args = args + " " + opt
+	for _, opt := range mountFlags {
+		args = args + opt + " "
 	}
-
-	args = args + " " + fmt.Sprintf("wasb://%s@%s.blob.core.windows.net %s", containerName, accountName, targetPath)
-	klog.V(2).Infof("target %v\nfstype %v\n\nvolumeId %v\ncontext %v\nmountflags %v\nmountOptions %v\nargs %v\n",
-		targetPath, fsType, volumeID, attrib, mountFlags, mountOptions, args)
+	args = strings.TrimSpace(args)
+	args = args + fmt.Sprintf("wasb://%s@%s.blob.core.windows.net %s", containerName, accountName, targetPath)
+	klog.V(2).Infof("target %v\nfstype %v\n\nvolumeId %v\ncontext %v\nmountflags %v\nargs %v\n",
+		targetPath, fsType, volumeID, attrib, mountFlags, args)
 	cmd := exec.Command("goofys", strings.Split(args, " ")...)
 	cmd.Env = append(os.Environ(), "AZURE_STORAGE_ACCOUNT="+accountName)
 	cmd.Env = append(cmd.Env, "AZURE_STORAGE_KEY="+accountKey)
